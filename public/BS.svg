@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 150 560 295" width="100%" height="100%">
+  <defs>
+    <!-- Clip path for volleyball sphere -->
+    <clipPath id="volleyball-clip">
+      <circle cx="280" cy="275" r="145" />
+    </clipPath>
+  </defs>
+
+  <!-- Group 1: Volleyball behind Star and Text -->
+  <g clip-path="url(#volleyball-clip)">
+    <!-- Base background of the ball -->
+    <circle cx="280" cy="275" r="145" fill="#ffffff" />
+
+    <!-- Top Left Yellow Panel -->
+    <path
+      d="M 145,205 C 180,145 250,135 330,160 C 290,195 230,215 145,205 Z"
+      fill="#f7a400"
+    />
+    <path
+      d="M 135,270 C 160,195 220,155 300,155 C 270,220 210,260 135,270 Z"
+      fill="#0f3b7d"
+    />
+
+    <!-- Upper Right Navy Blue & Yellow Panels -->
+    <path
+      d="M 300,155 C 370,175 420,225 425,285 C 370,260 310,235 265,220 C 285,190 295,170 300,155 Z"
+      fill="#0f3b7d"
+    />
+    <path
+      d="M 230,215 C 310,230 380,260 425,300 C 390,335 330,340 250,315 C 240,275 235,245 230,215 Z"
+      fill="#f7a400"
+    />
+
+    <!-- Lower Panels: Yellow & Navy -->
+    <path
+      d="M 145,270 C 220,260 290,285 340,335 C 300,385 220,410 150,365 C 138,335 138,300 145,270 Z"
+      fill="#f7a400"
+    />
+    <path
+      d="M 250,315 C 320,330 375,335 415,315 C 405,370 355,415 285,420 C 275,385 265,350 250,315 Z"
+      fill="#0f3b7d"
+    />
+    <path
+      d="M 195,370 C 260,370 320,380 365,405 C 315,425 255,420 195,370 Z"
+      fill="#f7a400"
+    />
+
+    <!-- White Volleyball Seam Lines -->
+    <path
+      d="M 140,205 C 210,200 285,210 360,245"
+      stroke="#ffffff"
+      stroke-width="7"
+      fill="none"
+      stroke-linecap="round"
+    />
+    <path
+      d="M 135,270 C 215,255 295,275 375,330"
+      stroke="#ffffff"
+      stroke-width="8"
+      fill="none"
+      stroke-linecap="round"
+    />
+    <path
+      d="M 245,145 C 245,215 250,290 260,365"
+      stroke="#ffffff"
+      stroke-width="7.5"
+      fill="none"
+      stroke-linecap="round"
+    />
+    <path
+      d="M 310,160 C 305,230 315,305 345,380"
+      stroke="#ffffff"
+      stroke-width="7"
+      fill="none"
+      stroke-linecap="round"
+    />
+    <path
+      d="M 200,315 C 260,330 330,340 420,310"
+      stroke="#ffffff"
+      stroke-width="7"
+      fill="none"
+      stroke-linecap="round"
+    />
+  </g>
+
+  <!-- Outer Volleyball Seam Rim -->
+  <circle cx="280" cy="275" r="145" stroke="#ffffff" stroke-width="4" fill="none" />
+
+  <!-- Group 2: The Red & Golden Star on Left -->
+  <g>
+    <!-- Golden Flame Accent in Top Star Notch -->
+    <path
+      d="M 148,195 C 160,172 185,157 215,165 C 190,182 175,202 168,232 Z"
+      fill="#f7a400"
+      stroke="#ffffff"
+      stroke-width="2"
+    />
+
+    <!-- Main Dynamic Red Star -->
+    <polygon
+      points="138,168 152,238 25,245 126,295 72,392 166,332 218,438 203,322 152,238"
+      fill="#e11b22"
+    />
+
+    <!-- Dynamic Yellow & Navy Swoop on Lower Star Wing -->
+    <path
+      d="M 176,388 C 205,420 236,438 252,434 C 238,422 215,402 195,378 Z"
+      fill="#f7a400"
+    />
+    <path
+      d="M 210,408 C 232,426 248,430 258,426 C 246,416 230,405 212,392 Z"
+      fill="#0f3b7d"
+    />
+
+    <!-- Dynamic Inner Yellow Star Contour Arc -->
+    <path
+      d="M 148,172 L 158,232 L 205,202 C 185,185 165,175 148,172 Z"
+      fill="#f7a400"
+    />
+
+    <!-- White Inner Star Negative Space Cutout -->
+    <polygon
+      points="138,262 172,262 185,228 198,262 232,262 205,285 215,318 185,296 155,318 165,285"
+      fill="#ffffff"
+    />
+  </g>
+
+  <!-- Group 3: Wordmark "BINTANG" (Red Serif) -->
+  <g>
+    <text
+      x="165"
+      y="322"
+      fill="#d31920"
+      font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+      font-weight="900"
+      font-size="78"
+      letter-spacing="-0.5px"
+    >
+      BINTANG
+    </text>
+  </g>
+
+  <!-- Group 4: Wordmark "SAMUDRA" (Navy Blue Serif) & Yellow Wing Accent -->
+  <g>
+    <!-- Left Yellow Accent Triangle under BINTANG -->
+    <polygon
+      points="310,338 336,338 310,368"
+      fill="#f7a400"
+    />
+    
+    <!-- SAMUDRA Text -->
+    <text
+      x="352"
+      y="364"
+      fill="#0f3875"
+      font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+      font-weight="900"
+      font-size="33"
+      letter-spacing="4.5px"
+    >
+      SAMUDRA
+    </text>
+  </g>
+</svg>

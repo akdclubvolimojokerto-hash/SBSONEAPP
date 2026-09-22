@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@media print {
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Sembunyikan elemen navigasi, header, modal background, dan tombol saat cetak */
+  nav,
+  header,
+  footer,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset modal wrapper saat dicetak langsung agar tidak ada layer abu-abu atau bayangan */
+  .fixed.inset-0 {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .shadow-2xl,
+  .shadow-xl,
+  .shadow-lg,
+  .shadow-md,
+  .shadow-sm {
+    box-shadow: none !important;
+  }
+
+  .border {
+    border-color: #cbd5e1 !important;
+  }
+
+  #printable-official-document {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 10mm 15mm !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "SYSTEM BS ONE - Bintang Samudra",
+  "description": "Sistem Informasi & Administrasi Volleyball Club Bintang Samudra terintegrasi Google Sheets",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,64 @@
+<svg viewBox="0 0 500 500" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer Blue Ring -->
+  <circle cx="250" cy="250" r="236" fill="#ffffff" stroke="#0b4884" stroke-width="18" />
+
+  <!-- Tilted Net Grid -->
+  <g transform="rotate(-9 250 260)">
+    <!-- Net Upper & Lower Boundary Lines -->
+    <line x1="20" y1="175" x2="480" y2="175" stroke="#0b4884" stroke-width="5" />
+    <line x1="20" y1="365" x2="480" y2="365" stroke="#0b4884" stroke-width="5" />
+    
+    <!-- Net Inner Horizontal Lines -->
+    <line x1="20" y1="213" x2="480" y2="213" stroke="#0b4884" stroke-width="3" />
+    <line x1="20" y1="251" x2="480" y2="251" stroke="#0b4884" stroke-width="3" />
+    <line x1="20" y1="289" x2="480" y2="289" stroke="#0b4884" stroke-width="3" />
+    <line x1="20" y1="327" x2="480" y2="327" stroke="#0b4884" stroke-width="3" />
+
+    <!-- Net Vertical Mesh Lines -->
+    <line x1="35" y1="175" x2="35" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="68" y1="175" x2="68" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="101" y1="175" x2="101" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="134" y1="175" x2="134" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="167" y1="175" x2="167" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="200" y1="175" x2="200" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="233" y1="175" x2="233" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="266" y1="175" x2="266" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="299" y1="175" x2="299" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="332" y1="175" x2="332" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="365" y1="175" x2="365" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="398" y1="175" x2="398" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="431" y1="175" x2="431" y2="365" stroke="#0b4884" stroke-width="3" />
+    <line x1="464" y1="175" x2="464" y2="365" stroke="#0b4884" stroke-width="3" />
+  </g>
+
+  <!-- Volleyball Resting on Top of the Net -->
+  <g id="volleyball">
+    <!-- Ball Base White Circle -->
+    <circle cx="238" cy="148" r="64" fill="#ffffff" stroke="#0b4884" stroke-width="7" />
+    <!-- Volleyball Curved Panels (Authentic 3-stripes pattern) -->
+    <!-- Center panel lines -->
+    <path d="M 215 88 C 230 100, 235 125, 232 150 C 230 170, 222 195, 206 208" fill="none" stroke="#0b4884" stroke-width="5" />
+    <path d="M 238 84 C 255 100, 260 125, 258 152 C 255 174, 245 198, 228 211" fill="none" stroke="#0b4884" stroke-width="5" />
+    <!-- Top-left curved panels -->
+    <path d="M 178 122 C 195 128, 215 122, 232 108" fill="none" stroke="#0b4884" stroke-width="5" />
+    <path d="M 184 152 C 202 156, 220 148, 232 136" fill="none" stroke="#0b4884" stroke-width="5" />
+    <!-- Bottom-right curved panels -->
+    <path d="M 242 165 C 265 160, 285 168, 298 182" fill="none" stroke="#0b4884" stroke-width="5" />
+    <path d="M 250 192 C 270 188, 288 194, 296 202" fill="none" stroke="#0b4884" stroke-width="5" />
+  </g>
+
+  <!-- Big Bold Vibrant Red "PBVSI" Acronym -->
+  <text 
+    x="250" 
+    y="325" 
+    text-anchor="middle" 
+    fill="#ff0000" 
+    font-size="124" 
+    font-weight="950" 
+    font-family="'Impact', 'Arial Black', -apple-system, BlinkMacSystemFont, sans-serif" 
+    letter-spacing="-2px"
+    transform="scale(1, 1.15) translate(0, -32)"
+  >
+    PBVSI
+  </text>
+</svg>
