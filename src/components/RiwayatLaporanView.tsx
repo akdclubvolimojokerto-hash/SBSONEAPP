@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   ChevronRight,
   Sparkles,
+  AlertTriangle,
 } from 'lucide-react';
 
 interface RiwayatLaporanViewProps {
@@ -60,8 +61,23 @@ export const RiwayatLaporanView: React.FC<RiwayatLaporanViewProps> = ({
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [viewDetailModalItem, setViewDetailModalItem] = useState<any | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const canEdit = currentUser?.role === 'Admin' || currentUser?.role === 'Pengurus';
+  const canEdit =
+    currentUser?.role === 'Admin' ||
+    currentUser?.role === 'Pengurus' ||
+    Boolean(
+      (() => {
+        try {
+          const raw = localStorage.getItem('bs_one_current_user');
+          const u = raw ? JSON.parse(raw) : null;
+          return u?.role === 'Admin' || u?.role === 'Pengurus';
+        } catch {
+          return false;
+        }
+      })()
+    );
 
   // Helper date filtering
   const filterByDateAndId = (items: any[], dateField: string, idField: string) => {
@@ -386,10 +402,12 @@ export const RiwayatLaporanView: React.FC<RiwayatLaporanViewProps> = ({
                           {/* Sediakan tombol 'Hapus' (Hanya Terbuka untuk ADMIN dan PENGURUS CLUB) */}
                           {canEdit && (
                             <button
+                              type="button"
                               onClick={() => {
-                                if (window.confirm('Yakin ingin menghapus data ini?')) {
-                                  onDeleteRecord(selectedCategory, item.id);
-                                }
+                                setItemToDelete({
+                                  id: item.id,
+                                  name: titleText || idText,
+                                });
                               }}
                               className="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition cursor-pointer"
                               title="Hapus Data"
@@ -457,6 +475,58 @@ export const RiwayatLaporanView: React.FC<RiwayatLaporanViewProps> = ({
                   Tutup
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL KONFIRMASI HAPUS DATA (Aman untuk iframe browser & responsive) */}
+      {itemToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-sm p-4 animate-in fade-in duration-150">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-slate-200">
+            <div className="flex items-center gap-3 mb-4 text-rose-600">
+              <div className="p-3 bg-rose-100 rounded-full">
+                <AlertTriangle className="w-6 h-6 text-rose-600" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-slate-900">Konfirmasi Hapus Data</h3>
+                <p className="text-xs text-slate-500">Tindakan ini tidak dapat dibatalkan</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-600 leading-relaxed mb-6">
+              Apakah Anda yakin ingin menghapus data{' '}
+              <strong className="text-slate-900 font-semibold">&quot;{itemToDelete.name}&quot;</strong> dari laporan{' '}
+              <strong className="text-blue-700 capitalize">{selectedCategory}</strong>?
+            </p>
+
+            <div className="flex items-center justify-end gap-2.5">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setItemToDelete(null)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 transition cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={async () => {
+                  if (!itemToDelete) return;
+                  try {
+                    setIsDeleting(true);
+                    await onDeleteRecord(selectedCategory, itemToDelete.id);
+                  } finally {
+                    setIsDeleting(false);
+                    setItemToDelete(null);
+                  }
+                }}
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-md transition cursor-pointer flex items-center gap-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>{isDeleting ? 'Menghapus...' : 'Hapus Sekarang'}</span>
+              </button>
             </div>
           </div>
         </div>

@@ -294,23 +294,32 @@ export async function postToSheets(
 
 export const sheetsService = {
   getStoredUrl: (): string => {
+    // Read from env variable (NEXT_PUBLIC_API_URL or VITE_API_URL) first, fallback to localStorage
+    const envUrl =
+      (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_API_URL) ||
+      (typeof import.meta !== 'undefined' && (import.meta as any).env?.NEXT_PUBLIC_API_URL) ||
+      (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_URL);
+
+    if (envUrl && envUrl.startsWith('http') && !envUrl.includes('XXXXX')) {
+      return envUrl;
+    }
     return localStorage.getItem('bs_one_gas_url') || '';
   },
   setStoredUrl: (url: string) => {
     localStorage.setItem('bs_one_gas_url', url);
   },
   insert: async (sheet: string, data: any) => {
-    const url = localStorage.getItem('bs_one_gas_url') || '';
+    const url = sheetsService.getStoredUrl();
     if (!url) return false;
     return postToSheets(url, sheet, 'insert', data);
   },
   update: async (sheet: string, id: string, data: any) => {
-    const url = localStorage.getItem('bs_one_gas_url') || '';
+    const url = sheetsService.getStoredUrl();
     if (!url) return false;
     return postToSheets(url, sheet, 'update', { ...data, id });
   },
   delete: async (sheet: string, id: string) => {
-    const url = localStorage.getItem('bs_one_gas_url') || '';
+    const url = sheetsService.getStoredUrl();
     if (!url) return false;
     return postToSheets(url, sheet, 'delete', { id });
   },

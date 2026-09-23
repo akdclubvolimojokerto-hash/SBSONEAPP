@@ -35,9 +35,6 @@ interface NavbarProps {
   currentUser: User | null;
   onOpenAuth: () => void;
   onLogout: () => void;
-  onOpenSheetsModal?: () => void;
-  onOpenSheets?: () => void;
-  sheetsUrl?: string;
   onAddMurid?: () => void;
   onAddKegiatan?: () => void;
 }
@@ -49,9 +46,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   currentUser,
   onOpenAuth,
   onLogout,
-  onOpenSheetsModal,
-  onOpenSheets,
-  sheetsUrl,
   onAddMurid,
 }) => {
   const [currentTime, setCurrentTime] = useState<string>('');
@@ -65,14 +59,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
     if (typeof onSelectTab === 'function') {
       onSelectTab(tab);
-    }
-  };
-
-  const handleOpenSheets = () => {
-    if (typeof onOpenSheetsModal === 'function') {
-      onOpenSheetsModal();
-    } else if (typeof onOpenSheets === 'function') {
-      onOpenSheets();
     }
   };
 
@@ -131,20 +117,6 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Sheets Connection Pill */}
-          <button
-            onClick={handleOpenSheets}
-            className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium border transition cursor-pointer ${
-              sheetsUrl
-                ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/50'
-                : 'bg-amber-950/50 border-amber-500/40 text-amber-300 hover:bg-amber-900/50'
-            }`}
-            title="Klik untuk konfigurasi Google Sheets URL"
-          >
-            <Database className="w-3 h-3" />
-            <span>{sheetsUrl ? 'Google Sheets: Terhubung' : 'Google Sheets: Demo / Belum Sync'}</span>
-          </button>
-
           {/* Tombol Pendaftaran Murid Baru - Terbuka untuk SEMUA USER */}
           {onAddMurid && (
             <button

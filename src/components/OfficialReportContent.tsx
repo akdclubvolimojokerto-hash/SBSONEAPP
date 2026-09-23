@@ -124,6 +124,76 @@ export const OfficialReportContent: React.FC<OfficialReportContentProps> = ({
     );
   }
 
+  if (reportType === 'kegiatan') {
+    const kegiatanList = data as DataKegiatan[];
+    return (
+      <div className="space-y-4 text-xs font-sans">
+        <div className="text-center pb-2">
+          <h4 className="font-bold text-sm uppercase tracking-wide text-slate-900">
+            DOKUMENTASI &amp; LAPORAN KEGIATAN RESMI CLUB BINTANG SAMUDRA
+          </h4>
+          <p className="text-[11px] text-slate-500">
+            PBVSI Kabupaten Mojokerto • Arsip Pelaksanaan Program Kerja
+          </p>
+        </div>
+
+        <table className="w-full border-collapse border border-slate-400 text-[11px]">
+          <thead>
+            <tr className="bg-slate-100 text-slate-800 font-bold">
+              <th className="border border-slate-300 py-1.5 px-2 w-8 text-center">No</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-28 text-center">Tanggal &amp; Waktu</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-16 text-center">Foto</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-44">Judul Kegiatan</th>
+              <th className="border border-slate-300 py-1.5 px-2">Uraian / Deskripsi Kegiatan</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-24 text-center">Diupload Oleh</th>
+            </tr>
+          </thead>
+          <tbody>
+            {kegiatanList.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="border border-slate-300 py-6 text-center text-slate-400 italic">
+                  Tidak ada data kegiatan yang dipilih
+                </td>
+              </tr>
+            ) : (
+              kegiatanList.map((k, idx) => (
+                <tr key={k.id || idx} className="hover:bg-slate-50">
+                  <td className="border border-slate-300 py-2 px-2 text-center font-mono">{idx + 1}</td>
+                  <td className="border border-slate-300 py-2 px-2 font-mono text-[10px] text-slate-600 text-center">
+                    {k.tanggalWaktu || '-'}
+                  </td>
+                  <td className="border border-slate-300 py-1.5 px-1 text-center">
+                    {k.fotoUrl ? (
+                      <div className="w-12 h-12 mx-auto rounded overflow-hidden border border-slate-300 bg-slate-100">
+                        <img
+                          src={k.fotoUrl}
+                          alt={k.judulKegiatan}
+                          className="w-full h-full object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-[10px] text-slate-400 italic">-</span>
+                    )}
+                  </td>
+                  <td className="border border-slate-300 py-2 px-2 font-bold text-slate-900 leading-snug">
+                    {k.judulKegiatan}
+                  </td>
+                  <td className="border border-slate-300 py-2 px-2 text-slate-700 leading-relaxed">
+                    {k.uraianKegiatan || '-'}
+                  </td>
+                  <td className="border border-slate-300 py-2 px-2 text-center font-medium text-slate-600">
+                    {k.createdBy || 'Admin'}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   if (reportType === 'jadwal') {
     const jadwalList = data as JadwalPelatihan[];
     return (
@@ -243,7 +313,154 @@ export const OfficialReportContent: React.FC<OfficialReportContentProps> = ({
     );
   }
 
-  // Default fallback for other reports (kegiatan, absen, piket)
+  if (reportType === 'absen') {
+    const absenList = data as DataAbsen[];
+    return (
+      <div className="space-y-4 text-xs font-sans">
+        <div className="text-center pb-2">
+          <h4 className="font-bold text-sm uppercase tracking-wide text-slate-900">
+            REKAPITULASI PRESENSI &amp; KEHADIRAN ATLET BINTANG SAMUDRA
+          </h4>
+          <p className="text-[11px] text-slate-500">
+            PBVSI Kabupaten Mojokerto • Catatan Kedisiplinan Latihan
+          </p>
+        </div>
+
+        <table className="w-full border-collapse border border-slate-400 text-[11px]">
+          <thead>
+            <tr className="bg-slate-100 text-slate-800 font-bold">
+              <th className="border border-slate-300 py-1.5 px-2 w-8 text-center">No</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-28">No Kode Murid</th>
+              <th className="border border-slate-300 py-1.5 px-2">Nama Atlet</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-24 text-center">Periode/Bulan</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-16 text-center">Tgl (Hari)</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-20 text-center">Status</th>
+              <th className="border border-slate-300 py-1.5 px-2">Keterangan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {absenList.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="border border-slate-300 py-6 text-center text-slate-400 italic">
+                  Tidak ada data presensi yang dipilih
+                </td>
+              </tr>
+            ) : (
+              absenList.map((a, idx) => {
+                const statusLabel =
+                  a.status === '.'
+                    ? 'Hadir'
+                    : a.status === 'S'
+                    ? 'Sakit'
+                    : a.status === 'I'
+                    ? 'Izin'
+                    : a.status === 'A'
+                    ? 'Alpa'
+                    : a.status === 'L'
+                    ? 'Libur'
+                    : a.status;
+
+                return (
+                  <tr key={a.id || idx} className="hover:bg-slate-50">
+                    <td className="border border-slate-300 py-1.5 px-2 text-center font-mono">{idx + 1}</td>
+                    <td className="border border-slate-300 py-1.5 px-2 font-mono font-bold text-blue-900">
+                      {a.noKodeMurid}
+                    </td>
+                    <td className="border border-slate-300 py-1.5 px-2 font-bold text-slate-900">{a.nama}</td>
+                    <td className="border border-slate-300 py-1.5 px-2 font-mono text-center text-slate-600">
+                      {a.bulanTahun}
+                    </td>
+                    <td className="border border-slate-300 py-1.5 px-2 font-mono text-center font-bold">
+                      {a.tanggalHari}
+                    </td>
+                    <td className="border border-slate-300 py-1.5 px-2 text-center font-bold">
+                      <span
+                        className={`inline-block px-2 py-0.5 rounded text-[10px] ${
+                          a.status === '.'
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : a.status === 'S'
+                            ? 'bg-blue-100 text-blue-800'
+                            : a.status === 'I'
+                            ? 'bg-amber-100 text-amber-800'
+                            : a.status === 'A'
+                            ? 'bg-rose-100 text-rose-800'
+                            : 'bg-slate-100 text-slate-800'
+                        }`}
+                      >
+                        {statusLabel}
+                      </span>
+                    </td>
+                    <td className="border border-slate-300 py-1.5 px-2 text-slate-600">
+                      {a.keterangan || '-'}
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  if (reportType === 'piket') {
+    const piketList = data as JadwalPiket[];
+    return (
+      <div className="space-y-4 text-xs font-sans">
+        <div className="text-center pb-2">
+          <h4 className="font-bold text-sm uppercase tracking-wide text-slate-900">
+            JADWAL PIKET KEBERSIHAN &amp; PERAWATAN LAPANGAN
+          </h4>
+          <p className="text-[11px] text-slate-500">
+            PBVSI Kabupaten Mojokerto • Tanggung Jawab Operasional Atlet Bintang Samudra
+          </p>
+        </div>
+
+        <table className="w-full border-collapse border border-slate-400 text-[11px]">
+          <thead>
+            <tr className="bg-slate-100 text-slate-800 font-bold">
+              <th className="border border-slate-300 py-1.5 px-2 w-8 text-center">No</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-28">No Kode Murid</th>
+              <th className="border border-slate-300 py-1.5 px-2">Nama Atlet Petugas</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-28 text-center">Hari Piket</th>
+              <th className="border border-slate-300 py-1.5 px-2">Uraian Tugas Piket Lapangan</th>
+              <th className="border border-slate-300 py-1.5 px-2 w-28 text-center">Waktu Dibuat</th>
+            </tr>
+          </thead>
+          <tbody>
+            {piketList.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="border border-slate-300 py-6 text-center text-slate-400 italic">
+                  Tidak ada jadwal piket yang dipilih
+                </td>
+              </tr>
+            ) : (
+              piketList.map((p, idx) => (
+                <tr key={p.id || idx} className="hover:bg-slate-50">
+                  <td className="border border-slate-300 py-1.5 px-2 text-center font-mono">{idx + 1}</td>
+                  <td className="border border-slate-300 py-1.5 px-2 font-mono font-bold text-blue-900">
+                    {p.noKodeMurid}
+                  </td>
+                  <td className="border border-slate-300 py-1.5 px-2 font-bold text-slate-900">{p.nama}</td>
+                  <td className="border border-slate-300 py-1.5 px-2 text-center font-bold text-slate-800 bg-slate-50">
+                    {p.hari}
+                  </td>
+                  <td className="border border-slate-300 py-1.5 px-2 text-slate-700">
+                    {p.piket || 'Membasahi lapangan dan Menyiapkan peralatan'}
+                  </td>
+                  <td className="border border-slate-300 py-1.5 px-2 text-center font-mono text-[10px] text-slate-500">
+                    {p.tanggalWaktu || '-'}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  // Default fallback for other reports
   return (
     <div className="space-y-4 text-xs font-sans">
       <div className="text-center pb-2">

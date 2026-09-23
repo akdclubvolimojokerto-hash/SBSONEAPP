@@ -12,22 +12,22 @@ import {
   AlertCircle,
   RefreshCw,
 } from 'lucide-react';
-import { DEFAULT_GAS_CODE, testSheetsConnection } from '../services/sheetsService';
+import { DEFAULT_GAS_CODE, testSheetsConnection, sheetsService } from '../services/sheetsService';
 
 interface GoogleSheetsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  sheetsUrl: string;
-  onSaveUrl: (url: string) => void;
+  sheetsUrl?: string;
+  onSaveUrl?: (url: string) => void;
 }
 
 export const GoogleSheetsModal: React.FC<GoogleSheetsModalProps> = ({
   isOpen,
   onClose,
-  sheetsUrl,
+  sheetsUrl = '',
   onSaveUrl,
 }) => {
-  const [urlInput, setUrlInput] = useState(sheetsUrl);
+  const [urlInput, setUrlInput] = useState(sheetsUrl || sheetsService.getStoredUrl() || '');
   const [copied, setCopied] = useState(false);
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
@@ -54,12 +54,18 @@ export const GoogleSheetsModal: React.FC<GoogleSheetsModalProps> = ({
     setTesting(false);
     setTestResult(result);
     if (result.success) {
-      onSaveUrl(urlInput.trim());
+      sheetsService.setStoredUrl(urlInput.trim());
+      if (typeof onSaveUrl === 'function') {
+        onSaveUrl(urlInput.trim());
+      }
     }
   };
 
   const handleSaveOnly = () => {
-    onSaveUrl(urlInput.trim());
+    sheetsService.setStoredUrl(urlInput.trim());
+    if (typeof onSaveUrl === 'function') {
+      onSaveUrl(urlInput.trim());
+    }
     setTestResult({
       success: true,
       message: 'URL Google Apps Script berhasil disimpan ke sistem!',

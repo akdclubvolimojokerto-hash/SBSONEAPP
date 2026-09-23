@@ -43,7 +43,6 @@ import { FormKegiatanModal } from './components/FormKegiatanModal';
 import { FormMuridModal } from './components/FormMuridModal';
 import { FormPengurusModal } from './components/FormPengurusModal';
 import { AuthModal } from './components/AuthModal';
-import { GoogleSheetsModal } from './components/GoogleSheetsModal';
 import { ExportModal } from './components/ExportModal';
 import { OfficialLetterhead } from './components/OfficialLetterhead';
 import { OfficialReportContent } from './components/OfficialReportContent';
@@ -115,7 +114,6 @@ export default function App() {
 
   // Modals Visibility
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isSheetsModalOpen, setIsSheetsModalOpen] = useState(false);
   const [isFormKegiatanOpen, setIsFormKegiatanOpen] = useState(false);
   const [isFormMuridOpen, setIsFormMuridOpen] = useState(false);
   const [isFormPengurusOpen, setIsFormPengurusOpen] = useState(false);
@@ -362,6 +360,13 @@ export default function App() {
     await sheetsService.insert('Keuangan', entry);
   };
 
+  const handleDeleteKegiatan = async (id: string) => {
+    const item = kegiatanList.find((k) => k.id === id);
+    setKegiatanList((prev) => prev.filter((k) => k.id !== id));
+    await sheetsService.delete('Data_Kegiatan', id);
+    showToast('Kegiatan Dihapus', item ? `"${item.judulKegiatan}" telah dihapus` : 'Data kegiatan berhasil dihapus');
+  };
+
   // Generic delete for Riwayat Laporan
   const handleDeleteRecord = async (category: ReportType, id: string) => {
     switch (category) {
@@ -372,24 +377,27 @@ export default function App() {
         await handleDeletePengurus(id);
         break;
       case 'kegiatan':
-        setKegiatanList((prev) => prev.filter((k) => k.id !== id));
-        await sheetsService.delete('Data_Kegiatan', id);
+        await handleDeleteKegiatan(id);
         break;
       case 'jadwal':
         setJadwalList((prev) => prev.filter((j) => j.id !== id));
         await sheetsService.delete('Jadwal_Pelatihan', id);
+        showToast('Jadwal Dihapus', 'Jadwal pelatihan telah dihapus');
         break;
       case 'absen':
         setAbsenList((prev) => prev.filter((a) => a.id !== id));
         await sheetsService.delete('Data_Absen', id);
+        showToast('Presensi Dihapus', 'Data presensi berhasil dihapus');
         break;
       case 'piket':
         setPiketList((prev) => prev.filter((p) => p.id !== id));
         await sheetsService.delete('Jadwal_Piket', id);
+        showToast('Piket Dihapus', 'Jadwal piket berhasil dihapus');
         break;
       case 'keuangan':
         setKeuanganList((prev) => prev.filter((k) => k.id !== id));
         await sheetsService.delete('Keuangan', id);
+        showToast('Data Keuangan Dihapus', 'Catatan keuangan berhasil dihapus');
         break;
     }
   };
@@ -458,9 +466,6 @@ export default function App() {
         setActiveTab={setActiveTab}
         onSelectTab={setActiveTab}
         onOpenAuth={() => setIsAuthModalOpen(true)}
-        onOpenSheets={() => setIsSheetsModalOpen(true)}
-        onOpenSheetsModal={() => setIsSheetsModalOpen(true)}
-        sheetsUrl={sheetsService.getStoredUrl()}
         onLogout={handleLogout}
         onAddMurid={() => {
           setEditingMurid(null);
@@ -486,6 +491,7 @@ export default function App() {
               setIsFormKegiatanOpen(true);
             }}
             onEditKegiatan={handleEditKegiatan}
+            onDeleteKegiatan={handleDeleteKegiatan}
             onNavigateTab={setActiveTab}
           />
         )}
@@ -624,13 +630,7 @@ export default function App() {
         existingUsers={users}
       />
 
-      {/* 2. Google Sheets Configuration & Status Modal */}
-      <GoogleSheetsModal
-        isOpen={isSheetsModalOpen}
-        onClose={() => setIsSheetsModalOpen(false)}
-      />
-
-      {/* 3. Form Kegiatan Modal */}
+      {/* 2. Form Kegiatan Modal */}
       <FormKegiatanModal
         isOpen={isFormKegiatanOpen}
         onClose={() => {

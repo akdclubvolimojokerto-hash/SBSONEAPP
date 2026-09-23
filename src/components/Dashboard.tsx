@@ -20,6 +20,8 @@ import {
   ChevronRight,
   Eye,
   Edit3,
+  Trash2,
+  AlertTriangle,
 } from 'lucide-react';
 
 interface DashboardProps {
@@ -30,6 +32,7 @@ interface DashboardProps {
   currentUser: User | null;
   onOpenAddKegiatan: () => void;
   onEditKegiatan?: (kegiatan: DataKegiatan) => void;
+  onDeleteKegiatan?: (id: string) => void;
   onNavigateTab: (tab: any) => void;
 }
 
@@ -41,10 +44,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
   currentUser,
   onOpenAddKegiatan,
   onEditKegiatan,
+  onDeleteKegiatan,
   onNavigateTab,
 }) => {
   const [liveDateString, setLiveDateString] = useState<string>('');
   const [selectedPhoto, setSelectedPhoto] = useState<DataKegiatan | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<{ id: string; name: string } | null>(null);
 
   // Compute live current date
   useEffect(() => {
@@ -332,6 +337,21 @@ export const Dashboard: React.FC<DashboardProps> = ({
                           <span>Edit</span>
                         </button>
                       )}
+                      {/* Tombol Aksi Hapus: Khusus Admin */}
+                      {isAdmin && onDeleteKegiatan && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setItemToDelete({ id: item.id, name: item.judulKegiatan });
+                          }}
+                          className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-bold text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 rounded-lg transition-colors border border-rose-200 cursor-pointer shadow-xs"
+                          title="Hapus Kegiatan (Khusus Admin)"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                          <span>Hapus</span>
+                        </button>
+                      )}
                       <button
                         onClick={() => setSelectedPhoto(item)}
                         className="text-blue-700 font-bold hover:underline flex items-center gap-0.5 cursor-pointer"
@@ -394,6 +414,20 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       <span>Edit Kegiatan</span>
                     </button>
                   )}
+                  {isAdmin && onDeleteKegiatan && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const itemDel = selectedPhoto;
+                        setSelectedPhoto(null);
+                        setItemToDelete({ id: itemDel.id, name: itemDel.judulKegiatan });
+                      }}
+                      className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-semibold cursor-pointer flex items-center gap-1.5 transition shadow-sm"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Hapus</span>
+                    </button>
+                  )}
                   <button
                     onClick={() => setSelectedPhoto(null)}
                     className="px-3 py-1.5 bg-slate-800 text-white rounded-lg text-xs font-semibold cursor-pointer"
@@ -402,6 +436,51 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation modal for delete in Dashboard */}
+      {itemToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-sm p-4 animate-in fade-in duration-150">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-slate-200">
+            <div className="flex items-center gap-3 mb-4 text-rose-600">
+              <div className="p-3 bg-rose-100 rounded-full">
+                <AlertTriangle className="w-6 h-6 text-rose-600" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-slate-900">Hapus Kegiatan?</h3>
+                <p className="text-xs text-slate-500">Tindakan ini tidak dapat dibatalkan</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-600 leading-relaxed mb-6">
+              Yakin ingin menghapus dokumentasi kegiatan{' '}
+              <strong className="text-slate-900 font-semibold">&quot;{itemToDelete.name}&quot;</strong>?
+            </p>
+
+            <div className="flex items-center justify-end gap-2.5">
+              <button
+                type="button"
+                onClick={() => setItemToDelete(null)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 transition cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (onDeleteKegiatan && itemToDelete) {
+                    onDeleteKegiatan(itemToDelete.id);
+                  }
+                  setItemToDelete(null);
+                }}
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-md transition cursor-pointer flex items-center gap-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Hapus Sekarang</span>
+              </button>
             </div>
           </div>
         </div>
